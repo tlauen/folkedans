@@ -7,6 +7,9 @@
   const prosjektRot = scriptUrl.pathname.replace(/\/skript\/inkluder\.js$/, "").replace(/\/$/, "");
   const rotUtanSlash = prosjektRot.replace(/^\/+|\/+$/g, "");
 
+  // make project root available globally for other scripts
+  window.PROSJEKT_ROT = prosjektRot;
+
   function medProsjektRot(sti) {
     if (!sti.startsWith("/")) return `${prosjektRot}/${sti}`;
     return `${prosjektRot}${sti}`;
@@ -106,11 +109,37 @@
     }
   }
 
+  // Helper: rewrite absolute-root links to include project root prefix
+  function fixRootLinks() {
+    // anchors
+    const anchors = document.querySelectorAll('a[href^="/"]');
+    anchors.forEach(a => {
+      const h = a.getAttribute('href');
+      if (!h || h.startsWith(prosjektRot + "/")) return;
+      a.setAttribute('href', prosjektRot + h);
+    });
+
+    // canonical tags
+    const canonicals = document.querySelectorAll('link[rel="canonical"]');
+    canonicals.forEach(l => {
+      const h = l.getAttribute('href');
+      if (h && h.startsWith("/")) {
+        l.setAttribute('href', prosjektRot + h);
+      }
+    });
+  }
+
   // Køyre
   ryddGamalIncludeCache();
 
   Promise.all([
-    lastInn("#topp-include", medProsjektRot("/delar/topp.html"), merkAktivSide),
+    lastInn("#topp-include", medProsjektRot("/delar/topp.html"), mål => {
+      merkAktivSide(mål);
+      fixRootLinks();
+    }),
     lastInn("#kolofon-include", medProsjektRot("/delar/kolofon.html"))
-  ]);
+  ]).then(() => {
+    // also fix links outside of includes once DOM is ready
+    document.addEventListener('DOMContentLoaded', fixRootLinks);
+  });
 })();

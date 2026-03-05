@@ -14,6 +14,15 @@
   const KJELDER = window.KJELDER || [];
   const ORDLISTE = window.KJELDE_ORDLISTE || {};
 
+  // fix any absolute-root links that may already be in the DOM or generated later
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof window.fixRootLinks === "function") window.fixRootLinks();
+    });
+  } else {
+    if (typeof window.fixRootLinks === "function") window.fixRootLinks();
+  }
+
   // Endre for å nullstille cache ved store endringar
   const VERSJON = "3";
 
