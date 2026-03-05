@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="nn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Songar og nedlastingar</title>
+
+  <!-- Font (berre tittel/knappar hos deg) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,650&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../stilar/hovud.css" />
+</head>
+
+<body>
+  <!-- TOPP -->
+  <div id="topp-include"></div>
+
+  <!-- HOVUDINNHALD -->
+  <main class="omslag">
+
+    <section class="kort">
+      <div class="kort-topp">
+        <h2>PDFar du kan laste ned</h2>
+        <!--<input id="sokPdf" class="sok" type="search" placeholder="Søk i PDF-ar …" />-->
+      </div>
+      <div id="pdfStatus" class="muted">Lastar …</div>
+      <ul id="pdfListe" class="liste"></ul>
+    </section>
+
+    <section class="kort">
+      <div class="kort-topp">
+        <h2>Songar</h2>
+        <!--<input id="sokSong" class="sok" type="search" placeholder="Søk i songar …" />-->
+      </div>
+      <div id="songStatus" class="muted">Lastar …</div>
+      <ul id="songListe" class="liste"></ul>
+    </section>
+
+    <section class="kort">
+        <h2>Bilbokvædi</h2>
+        <p class="muted" style="margin: 0 0 10px;">
+            Viser om Bilbo Skrepping, inspirert av Hobbiten.</p>
+
+        <p style="margin:0;">
+        <a class="liste-lenkje" href="/bilbokvadi">Til Bilbokvædi →</a></p>
+    </section>
+
+  </main>
+
+  <!-- KOLOFON -->
+  <div id="kolofon-include"></div>
+
+    <!-- Ordliste -->
+  <script src="../skript/kjelder/kjelde-ordliste.js" defer></script>
+
+  <!-- Inkluder topp/kolofon -->
+  <script src="../skript/inkluder.js" defer></script>
+
+  <!-- Sidekode -->
+  <script src="../skript/innhald.js" defer></script>
+</body>
+</html>

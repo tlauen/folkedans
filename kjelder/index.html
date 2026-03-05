@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="nn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kjelder</title>
+
+  <!-- Font (berre tittel/knappar hos deg) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,650&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../stilar/hovud.css" />
+</head>
+
+<body>
+  <!-- TOPP -->
+  <div id="topp-include"></div>
+
+  <!-- HOVUDINNHALD -->
+  <main class="omslag">
+    <section class="kort">
+      <div class="kort-topp">
+  <h2>Kjelder</h2>
+
+  <div class="kontrollar">
+    <label>
+      Sorter:
+      <select id="sorterKjelder">
+        <option value="tittel">Alfabetisk</option>
+        <option value="år">Utgjevingsår</option>
+        <option value="forfattar">Forfattar</option>
+      </select>
+    </label>
+
+    <input
+      id="sokKjelde"
+      class="sok"
+      type="search"
+      placeholder="Søk i kjelder …"
+    />
+  </div>
+</div>
+
+
+      <div id="kjeldeStatus" class="muted">Lastar …</div>
+      <div id="kjeldeListe"></div>
+    </section>
+  </main>
+
+  <!-- KOLOFON -->
+  <div id="kolofon-include"></div>
+
+    <!-- Ordliste -->
+  <script src="../skript/kjelder/kjelde-ordliste.js" defer></script>
+
+  <!-- Inkluder topp/kolofon -->
+  <script src="../skript/inkluder.js" defer></script>
+
+  <!-- Sidekode -->
+  <script src="../skript/kjelder.js" defer></script>
+</body>
+</html>

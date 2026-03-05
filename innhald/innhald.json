@@ -1,0 +1,66 @@
+{
+  "songtekstar": [
+    {
+      "tittel": "Fanitullen",
+      "fil": "song/fanitullen"
+    },
+    {
+      "tittel": "Gje meg handa di ven",
+      "fil": "song/gje-meg-handa-di-ven"
+    },
+    {
+      "tittel": "Harald Jakupsson og Valdemarsormen",
+      "fil": "song/harald-jakupsson"
+    },
+    {
+      "tittel": "Møllarvisa",
+      "fil": "song/mollarvisa"
+    },
+    {
+      "tittel": "Nordan for Trondhjem",
+      "fil": "song/nordan-for-trondhjem"
+    },
+    {
+      "tittel": "Ole Morske",
+      "fil": "song/ole-morske"
+    },
+    {
+      "tittel": "På Dovrefjell",
+      "fil": "song/dovrefjell"
+    },
+    {
+      "tittel": "Santa Simeon",
+      "fil": "song/santa-simeon"
+    },
+    {
+      "tittel": "Soga om Kark",
+      "fil": "song/kark"
+    },
+    {
+      "tittel": "Stolt Signhild",
+      "fil": "song/stolt-signhild"
+    },
+    {
+      "tittel": "Tale ved Kleng Spelemanns grav",
+      "fil": "song/kleng"
+    },
+    {
+      "tittel": "Torjus døter",
+      "fil": "song/torjus-doter"
+    }
+  ],
+  "pdfar": [
+    {
+      "tittel": "Danse mi dokke mæ du æ ung",
+      "fil": "pdf/Dansemidokke-Tor-Stallvik.pdf",
+      "kjelde": "DMD",
+      "merknad": "Skanna hefte. Lagt ut med løyve frå Tor Stallvik."
+    },
+    {
+      "tittel": "Songdans frå Østfold",
+      "fil": "pdf/Songdans-fra-Ostfold.pdf",
+      "kjelde": "ØSTF.",
+      "merknad": "Skanna hefte. Lagt ut med løyve frå Tone Eidsvold."
+    }
+  ]
+}

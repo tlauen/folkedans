@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="nn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Folkedans.net</title>
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+  <!-- Font (berre tittel/knappar hos deg) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,650&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="stilar/hovud.css" />
+</head>
+
+<body>
+  <!-- TOPP -->
+  <div id="topp-include"></div>
+
+  <!-- HOVUDINNHALD -->
+  <main class="omslag">
+    <div class="faner" id="faner" role="tablist" aria-label="Kategoriar"></div>
+
+    <div class="meta">
+      <span class="pill" id="aktivNamn">–</span>
+      <span class="pill" id="radTal">0 oppføringar</span>
+      <span class="status" id="status">Klar.</span>
+    </div>
+
+    <div class="tabellwrap">
+      <table id="dansTabell" class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th>Namn</th>
+            <th>Kategori</th>
+            <th>Underkategori</th>
+            <th>Tradisjonsområde</th>
+            <th>Kjelde</th>
+            <th>Sidetal</th>
+            <th>Lenker</th>
+            <th>Vers</th>
+            <th>Brigde</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- KOLOFON -->
+  <div id="kolofon-include"></div>
+
+    <!-- Dependencies (defer = blokkerer ikkje rendering) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+
+  <!-- Data / ordliste -->
+  <script src="skript/kjelder/kjelde-ordliste.js" defer></script>
+
+  <!-- Kjelder (CSV-listene dine) -->
+  <script defer>
+    window.KJELDER = [
+      { key: "songdans",  namn: "Songdans",      csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS-tb4o4ENb-lgBcP0S__tAJRjBK58CKqEgZIt2dyy0nxMLc-0rtF8EGQBznk2o8ZK-Wztd7ZVcl8C/pub?gid=253840585&single=true&output=csv" },
+      { key: "turdans",   namn: "Turdans",       csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS-tb4o4ENb-lgBcP0S__tAJRjBK58CKqEgZIt2dyy0nxMLc-0rtF8EGQBznk2o8ZK-Wztd7ZVcl8C/pub?gid=657527978&single=true&output=csv" },
+      { key: "songleik",  namn: "Songleik",      csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS-tb4o4ENb-lgBcP0S__tAJRjBK58CKqEgZIt2dyy0nxMLc-0rtF8EGQBznk2o8ZK-Wztd7ZVcl8C/pub?gid=1436690923&single=true&output=csv" },
+      { key: "bygdedans", namn: "Bygdedans",     csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS-tb4o4ENb-lgBcP0S__tAJRjBK58CKqEgZIt2dyy0nxMLc-0rtF8EGQBznk2o8ZK-Wztd7ZVcl8C/pub?gid=1055428972&single=true&output=csv" },
+      { key: "runddans",  namn: "Runddans",      csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS-tb4o4ENb-lgBcP0S__tAJRjBK58CKqEgZIt2dyy0nxMLc-0rtF8EGQBznk2o8ZK-Wztd7ZVcl8C/pub?gid=643872454&single=true&output=csv" },
+      { key: "dans1900",  namn: "1900-talsdans", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQS-tb4o4ENb-lgBcP0S__tAJRjBK58CKqEgZIt2dyy0nxMLc-0rtF8EGQBznk2o8ZK-Wztd7ZVcl8C/pub?gid=347111393&single=true&output=csv" }
+    ];
+  </script>
+
+  <!-- Inkluder topp/kolofon -->
+  <script src="skript/inkluder.js" defer></script>
+
+  <!-- App -->
+  <script src="skript/app.js" defer></script>
+</body>
+</html>

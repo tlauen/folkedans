@@ -1,0 +1,218 @@
+/* ==========================
+   folkedans.net – song.css
+   Éin samla lesekolonne
+   ========================== */
+
+/* Design-variablar */
+:root{
+  --song-kolonne: var(--songtekst-breidd, 30rem);
+  --etikett-breidd: 8rem;
+}
+
+/* ==========================
+   Hovudkolonne
+   ========================== */
+
+article.songtekst,
+.songlenkjer,
+.om-visa,
+.songboks{
+  max-width: var(--song-kolonne);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+/* ==========================
+   Songtekst
+   ========================== */
+
+article.songtekst h1{
+  margin-bottom: 1.25rem;
+}
+
+article.songtekst p{
+  margin: 0 0 1rem;
+  line-height: 1.55;
+}
+
+/* ==========================
+   Lenker
+   ========================== */
+
+.songlenkjer{
+  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lenkeknapp{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--farge-border);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+  color: var(--farge-accent);
+  background: var(--farge-input);
+}
+
+.lenkeknapp:hover{
+  border-color: var(--farge-accent);
+  color: var(--farge-accent-hover);
+}
+
+.lenkje-ikon{
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  opacity: .85;
+}
+
+/* ==========================
+   Om visa
+   ========================== */
+
+.om-visa{
+  margin-top: 2rem;
+}
+
+.om-visa h2{
+  margin: 0 0 .75rem;
+}
+
+.om-visa p{
+  margin: 0 0 .75rem;
+  line-height: 1.55;
+}
+
+.om-visa p:last-child{
+  margin-bottom: 0;
+}
+
+/* ==========================
+   Samla songboks
+   ========================== */
+
+.songboks{
+  margin-top: 2rem;
+  padding: 14px 16px;
+  border: 1px solid var(--farge-border);
+  border-radius: var(--radius-lg);
+  background: var(--farge-plate);
+}
+
+/* ÉIN layout for alt innhald */
+.songboks dl{
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.songboks dl > div{
+  display: grid;
+  grid-template-columns: var(--etikett-breidd) 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+
+/* Etikettar: Tekst / Melodi / Kjelde */
+.songboks dt{
+  font-weight: 650;
+  color: var(--farge-mjuk-tekst);
+}
+
+/* Verdiar */
+.songboks dd{
+  margin: 0;
+  color: var(--farge-tekst);
+}
+
+/* ==========================
+   Mobil
+   ========================== */
+
+@media (max-width: 700px){
+  :root{
+    --etikett-breidd: 7rem;
+  }
+
+  .songboks{
+    padding: 12px;
+  }
+}
+
+/* ==========================
+   Nummererte vers
+   ========================== */
+
+/* Standard: start teljaren på 0 (så første vers blir 1) */
+.songtekst.nummer{
+  counter-reset: vers;
+}
+
+/* Viss du deler songen i bolkar, start på nytt i kvar bolk */
+.songtekst.nummer .bolk{
+  counter-reset: vers;
+}
+
+/* Nummerer alle paragrafar i songteksten (også inni .bolk) */
+.songtekst.nummer p{
+  position: relative;
+  padding-left: 2.4rem;   /* plass til talet */
+}
+
+/* Tel berre vers (ikkje omkved) */
+.songtekst.nummer p:not(.omkved)::before{
+  counter-increment: vers;
+  content: counter(vers) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 600;
+  color: var(--farge-mjuk-tekst);
+}
+
+/* Ompkved skal ikkje teljast, og skal ikkje ha innrykk */
+.songtekst.nummer p.omkved{
+  padding-left: 2.4rem;      /* same innrykk som vers */
+  font-style: italic;  /* tryggleik om <em> manglar */
+  opacity: .9;
+}
+
+/* Merknader i teksten (ikkje vers) */
+.songtekst.nummer p.merknad{
+  padding: .2rem .6rem;
+  margin: .5rem 0;
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--farge-border);
+  font-size: .95em;
+  color: var(--farge-mjuk-tekst);
+}
+
+/* Merknader skal ikkje teljast */
+.songtekst.nummer p.merknad::before{
+  content: "";
+  counter-increment: none;
+}
+
+/* Inline merknad til linja over */
+.songtekst.nummer p.merknad-inline{
+  padding-left: 2.4rem;      /* same innrykk som vers */
+  margin-top: -1rem;       /* trekk opp mot verset */
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--farge-border);
+  font-size: 0.9em;
+  font-style: italic;
+  color: var(--farge-mjuk-tekst);
+}
+
+/* skal ikkje teljast */
+.songtekst.nummer p.merknad-inline::before{
+  content: "";
+  counter-increment: none;
+}

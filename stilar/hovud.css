@@ -1,0 +1,642 @@
+/* ==========================
+   folkedans.net – hovud.css
+   Grunnstil + felles UI (UU-justert)
+   Songspesifikt ligg i song.css
+   ========================== */
+
+/* ---- Designkontrakt: radiusar ----
+   Bruk berre desse nivåa:
+   - 3px  : små/tekniske element (input, filter)
+   - 5px  : UI-element (faner, små knappar)
+   - 8px  : kort/boksar (innhald, bobler, tabellplate)
+   - 999px: piller/chips (heilrunde)
+------------------------------------ */
+:root{
+  --maksbreidd: 1500px;
+
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+
+  /* === FARGAR === */
+  --farge-bakgrunn: #FBF9F3;     /* hovudbakgrunn */
+  --farge-plate: #F6F2ED;        /* varme flater (kort/plate) */
+  --farge-input: #FFFFFF;        /* berre for input-felt */
+
+  /* Tabell/flate: litt mørkare og varmare enn plate */
+  --farge-flate: #F3EFEA;
+  --farge-flate-sterk: #EEE8E3;
+  --farge-kant: #DED7D1;
+
+  --farge-topp: #EBE4E0;          /* topp */
+  --farge-tekst: #2B2B2B;
+  --farge-mjuk-tekst: #4A4A4A;
+
+  --farge-accent: #8B0000;
+  --farge-accent-hover: #6F0000;
+  --farge-accent-mjuk: #F1E8E3;
+
+  --farge-border: #D8CCC6;
+  --farge-border-sterk: #C9B8AF;
+
+  --fokus-ring: 3px;
+}
+
+/* ---- Grunn ---- */
+html, body{
+  height: 100%;
+}
+
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin: 0;
+  line-height: 1.45;
+  background: var(--farge-bakgrunn);
+  color: var(--farge-tekst);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.omslag{
+  max-width: var(--maksbreidd);
+  margin: 0 auto;
+  padding: 16px;
+  flex: 1;
+}
+
+/* Typografi */
+h1{
+  margin: 0 0 6px;
+  font-family: "Fraunces", serif;
+  font-weight: 650;
+  font-size: 36px;
+  letter-spacing: .2px;
+}
+
+h2{
+  font-family: "Fraunces", serif;
+  font-size: 25px;
+  margin: 0 0 10px;
+}
+
+.undertittel{
+  opacity: .95;
+  color: var(--farge-mjuk-tekst);
+  font-size: 14px;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.muted{
+  color: var(--farge-mjuk-tekst);
+  opacity: 1; /* UU: unngå for svak tekst */
+}
+
+/* Lenker generelt (UU: alltid tydeleg hover/fokus) */
+a{
+  color: var(--farge-accent);
+  text-underline-offset: 3px;
+}
+a:hover{ color: var(--farge-accent-hover); }
+a:focus-visible{
+  outline: var(--fokus-ring) solid var(--farge-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================
+   Header / topp
+   ========================== */
+header{
+  background: var(--farge-topp);
+  border-bottom: 1px solid var(--farge-border);
+  padding: 14px 0;
+}
+
+.topp-linje{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Nettstad-tittel som lenke (utan lenkeutsegn, men med UU-fokus) */
+.nettstad-tittel a{
+  color: var(--farge-accent);
+  text-decoration: none;
+}
+.nettstad-tittel a:hover{
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.nettstad-tittel a:focus-visible{
+  outline: var(--fokus-ring) solid var(--farge-accent);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* Meny */
+.toppmeny{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.toppmeny a{
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+  color: var(--farge-tekst);
+  opacity: .92;
+}
+.toppmeny a:hover{ color: var(--farge-accent); }
+.toppmeny a[aria-current="page"]{
+  opacity: 1;
+  font-weight: 650;
+  border-bottom-color: var(--farge-accent);
+}
+
+/* ==========================
+   Faner / meta
+   ========================== */
+.faner{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 10px;
+}
+
+.faneknapp{
+  border: 1px solid var(--farge-border);
+  background: var(--farge-plate);
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--farge-tekst);
+  transition: background .12s, border-color .12s, color .12s;
+}
+
+.faneknapp:hover{ border-color: var(--farge-accent); }
+
+.faneknapp:focus-visible{
+  outline: var(--fokus-ring) solid var(--farge-accent);
+  outline-offset: 3px;
+}
+
+.faneknapp[aria-selected="true"]{
+  background: var(--farge-accent);
+  border-color: var(--farge-accent);
+  color: #fff;
+}
+
+.meta{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 8px 0 14px;
+}
+
+.pille{
+  border: 1px solid var(--farge-border);
+  border-radius: var(--radius-pill);
+  padding: 6px 10px;
+  font-size: 13px;
+  background: var(--farge-accent-mjuk);
+  color: var(--farge-tekst);
+}
+
+.status{
+  font-size: 14px;
+  color: var(--farge-mjuk-tekst);
+}
+.status.feil{
+  color: #8b0000;
+  font-weight: 650;
+}
+
+/* Kontrollar under faner på index */
+#lastInnAlleInfo{ color: var(--farge-mjuk-tekst); }
+
+/* ==========================
+   DataTables / tabell
+   ========================== */
+
+/* Plate rundt tabellen + tynn aksentlinje */
+.tabellwrap,
+.tabellramme{
+  position: relative;
+  /*background: var(--farge-plate);
+  border: 1px solid var(--farge-border); // fjernar bakgrunn og ramme */
+  border-radius: var(--radius-lg);
+  padding: 10px 10px 12px;
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+/* Aksentlinje */
+.tabellwrap::before,
+.tabellramme::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: var(--farge-accent);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+}
+
+/* Tabellgrunnlag (varmare/dempa) */
+table.dataTable{
+  width: 100% !important;
+  min-width: 1200px;
+  background: var(--farge-flate);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Header */
+table.dataTable thead th{
+  white-space: nowrap;
+  background: var(--farge-flate-sterk);
+  border-bottom: 1px solid var(--farge-kant);
+
+  /* TIP 1: litt tydelegare hierarki i tabellheader */
+  font-weight: 750;
+  color: var(--farge-tekst);
+}
+
+/* Celler */
+table.dataTable tbody td{
+  background: var(--farge-flate);
+}
+
+/* TIP 2: diskret hover (flat, roleg) */
+table.dataTable tbody tr:hover td{
+  background: #F0EBE6;
+}
+
+/* Zebra (svært subtil) */
+table.dataTable tbody tr:nth-child(even) td{
+  background: #F6F2ED;
+}
+
+/* Skjul standard DataTables UI (du brukar eige oppsett) */
+.dataTables_length,
+.dataTables_info,
+.dataTables_paginate{
+  display: none !important;
+}
+
+/* DataTables søk */
+.dataTables_filter label{ font-size: 14px; }
+
+.dataTables_filter input{
+  margin-left: 10px !important;
+  border: 1px solid var(--farge-border);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  outline: none;
+  background: var(--farge-input);
+  margin-bottom: 10px;
+}
+.dataTables_filter input:focus{
+  border-color: var(--farge-accent);
+  outline: var(--fokus-ring) solid var(--farge-accent);
+  outline-offset: 2px;
+}
+
+/* Lenke-knappar i tabell (Lenker-kolonna) */
+.linkknapp{
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--farge-border);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font-size: 12px;
+  margin-right: 6px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  font-weight: 650;
+  letter-spacing: .15px;
+  color: var(--farge-accent);
+  background: #fff;
+}
+.linkknapp:hover{
+  border-color: var(--farge-accent);
+  color: var(--farge-accent-hover);
+}
+.linkknapp:focus-visible{
+  outline: var(--fokus-ring) solid var(--farge-accent);
+  outline-offset: 2px;
+}
+
+/* Brigde-ikon i tabell: passe stort + tving grøn farge */
+table.dataTable td .ikon-ja{
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 18px;
+  color: #1a7f37 !important;
+}
+
+/* Valfritt: sentrer Brigde-kolonna (kolonne 9) */
+table.dataTable td:nth-child(9),
+table.dataTable th:nth-child(9){
+  text-align: center;
+}
+
+/* ==========================
+   Kjelde: klikkbare chips + boble
+   ========================== */
+.kjeldeknapp{
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: var(--farge-accent);
+  font: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.kjeldeknapp:hover{ color: var(--farge-accent-hover); }
+.kjeldeknapp:focus-visible{
+  outline: var(--fokus-ring) solid var(--farge-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Popover/boble */
+.boble{
+  position: fixed;
+  z-index: 9999;
+  max-width: min(520px, calc(100vw - 24px));
+  background: var(--farge-plate);
+  border: 1px solid rgba(0,0,0,.18);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 50px rgba(0,0,0,.12);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--farge-tekst);
+}
+.boble .tittel{ font-weight: 650; margin: 0 0 6px; }
+.boble .tekst{ margin: 0; color: var(--farge-mjuk-tekst); }
+.boble a{ display:inline-block; margin-top: 8px; }
+.boble::after{
+  content:"";
+  position:absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--farge-plate);
+  border-left: 1px solid rgba(0,0,0,.18);
+  border-top: 1px solid rgba(0,0,0,.18);
+  transform: rotate(45deg);
+  top: -6px;
+  left: 18px;
+}
+
+/* ==========================
+   Innhald/kjelder: kort + liste + søk
+   ========================== */
+.kort{
+  border: 1px solid var(--farge-border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  background: var(--farge-plate);
+}
+
+.kort h2{ margin: 0 0 8px; }
+
+.kort code{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.kort-topp{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Søkefelt */
+.sok{
+  border: 1px solid var(--farge-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  outline: none;
+  min-width: min(360px, 100%);
+  background: var(--farge-input);
+}
+.sok:focus{
+  border-color: var(--farge-accent);
+  outline: var(--fokus-ring) solid var(--farge-accent);
+  outline-offset: 2px;
+}
+
+.liste{
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+.liste-rad{
+  padding: 10px 0;
+  border-bottom: 1px solid var(--farge-border);
+}
+.liste-lenkje{
+  text-decoration: none;
+  color: var(--farge-accent);
+  font-weight: 700;
+}
+.liste-lenkje:hover{
+  color: var(--farge-accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.liste-meta{
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--farge-mjuk-tekst);
+  margin-left: 8px;
+}
+
+/* Kjelder: lik rytme som liste */
+#kjeldeListe .kjeldekort{
+  margin: 0;
+  padding: 10px 0;
+  background: transparent;
+  border-bottom: 1px solid var(--farge-border);
+}
+#kjeldeListe .kjeldekort:first-child{
+  border-top: 1px solid var(--farge-border);
+}
+
+.kjeldekort-topp{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.kjeldekode{
+  font-weight: 800;
+  border: 1px solid var(--farge-border);
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  font-size: 12px;
+  background: var(--farge-accent-mjuk);
+  color: var(--farge-tekst);
+}
+
+.kjeldetittel{
+  font-weight: 800;
+  color: var(--farge-tekst);
+}
+
+.kontrollar{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ==========================
+   Kolofon
+   ========================== */
+.kolofon{
+  background: #341212;
+  border-top: 1px solid #2a0e0e;
+  margin-top: 3rem;
+  padding: 1.75rem 0;
+  font-size: 14px;
+  color: #F3E6E3;
+}
+
+.kolofon strong{
+  font-family: "Fraunces", serif;
+  font-weight: 650;
+  font-size: 16px;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  color: #F6D6C9;
+}
+
+.kolofon a{
+  color: #F6D6C9;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.kolofon a:hover{ color: #FFFFFF; }
+.kolofon a:focus-visible{
+  outline: 3px solid #F6D6C9;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ==========================
+   Responsivt (mobil)
+   TIP 3: betre mobil-rytme i tabell/listar
+   ========================== */
+@media (max-width: 700px){
+  h1{ font-size: 22px; }
+  table.dataTable{ min-width: 980px; }
+
+  /* Topp: kolonne på mobil */
+  .topp-linje{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .undertittel{ margin: 2px 0 6px; }
+
+  /* Brigde-ikon litt mindre */
+  table.dataTable td .ikon-ja{ font-size: 16px; }
+
+  /* Litt tettare på mobil */
+  .liste-rad{ padding: 9px 0; }
+  .dataTables_filter input{ padding: 6px 9px; }
+}
+
+/* ==========================
+   Lister (innhald.html + kjelder.html)
+   Zebra + mjuk hover (same uttrykk som tabell)
+   ========================== */
+
+/* Gjer lista til “flate-rader” med litt luft */
+.liste-rad,
+#kjeldeListe .kjeldekort{
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--farge-border);
+  border-radius: var(--radius-md);
+  transition: background .12s ease;
+}
+
+/* Zebra: annakvar rad */
+.liste-rad:nth-child(even),
+#kjeldeListe .kjeldekort:nth-child(even){
+  background: #ECE9E4;             /* same som tabell-zebra */
+}
+
+/* Standardrad (odd): same som tabellflate */
+.liste-rad:nth-child(odd),
+#kjeldeListe .kjeldekort:nth-child(odd){
+  background: var(--farge-flate);  /* roleg, varm */
+}
+
+/* Hover: mjuk, diskret */
+.liste-rad:hover,
+#kjeldeListe .kjeldekort:hover{
+  background: #E7E3DE;             /* same som tabell-hover */
+}
+
+/* Når du tabbar til lenkje inni rada: gi same hover (UU) */
+.liste-rad:focus-within,
+#kjeldeListe .kjeldekort:focus-within{
+  background: #F0EBE6;
+  outline: 2px solid var(--farge-accent);
+  outline-offset: 2px;
+}
+
+/* Valfritt: litt mindre innrykk på meta-linja så det ikkje ser "skeivt" ut */
+.liste-meta{
+  margin-left: 0;
+}
+
+/* ==========================
+   Ikkje ferdig (arbeid pågår)
+   ========================== */
+
+.ikkje-ferdig{
+  opacity: 0.65;
+}
+
+.ikkje-ferdig .liste-lenkje{
+  pointer-events: none;          /* ikkje klikkbar */
+  cursor: not-allowed;
+}
+
+.ikkje-ferdig::after{
+  content: "Ikkje ferdig";
+  font-size: 0.75rem;
+  margin-left: .5rem;
+  padding: .15rem .45rem;
+  border-radius: 6px;
+  background: #ebe4e0;            /* varm, roleg bakgrunn */
+  color: #341212;                 /* mørk raud, same som kolofon */
+  white-space: nowrap;
+}
+
+/* Hover: ikkje “blink”, berre roleg */
+.liste-rad.ikkje-ferdig:hover{
+  background: transparent;
+}
