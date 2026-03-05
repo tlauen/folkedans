@@ -1,7 +1,16 @@
 (() => {
   // Endre denne når du har oppdatert topp/kolofon og vil tvinge refresh i Safari
-  const INC_VERSJON = "2026-03-05-1";
+  const INC_VERSJON = "2026-03-05-2";
   const DEV_NO_CACHE = false; // set true berre under testing
+  const scriptSrc = document.currentScript?.src || "skript/inkluder.js";
+  const scriptUrl = new URL(scriptSrc, window.location.href);
+  const prosjektRot = scriptUrl.pathname.replace(/\/skript\/inkluder\.js$/, "").replace(/\/$/, "");
+  const rotUtanSlash = prosjektRot.replace(/^\/+|\/+$/g, "");
+
+  function medProsjektRot(sti) {
+    if (!sti.startsWith("/")) return `${prosjektRot}/${sti}`;
+    return `${prosjektRot}${sti}`;
+  }
 
   function cacheKey(url) {
     return `inc:${INC_VERSJON}:${url}`;
@@ -43,10 +52,14 @@
   }
 
   function merkAktivSide(container) {
-    const path = window.location.pathname
+    let path = window.location.pathname
       .replace(/^\/+/, "")
       .split("?")[0]
       .split("#")[0];
+
+    if (rotUtanSlash && (path === rotUtanSlash || path.startsWith(`${rotUtanSlash}/`))) {
+      path = path.slice(rotUtanSlash.length).replace(/^\/+/, "");
+    }
 
     const lenkjer = container.querySelectorAll("nav a");
     lenkjer.forEach(a => a.removeAttribute("aria-current"));
@@ -97,7 +110,7 @@
   ryddGamalIncludeCache();
 
   Promise.all([
-    lastInn("#topp-include", "/delar/topp.html", merkAktivSide),
-    lastInn("#kolofon-include", "/delar/kolofon.html")
+    lastInn("#topp-include", medProsjektRot("/delar/topp.html"), merkAktivSide),
+    lastInn("#kolofon-include", medProsjektRot("/delar/kolofon.html"))
   ]);
 })();
