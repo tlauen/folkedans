@@ -7,6 +7,20 @@
   const prosjektRot = scriptUrl.pathname.replace(/\/skript\/inkluder\.js$/, "").replace(/\/$/, "");
   const rotUtanSlash = prosjektRot.replace(/^\/+|\/+$/g, "");
 
+  // ensure a <base> element is present so that all root-relative URLs
+  // resolve from the correct base whether we're on GitHub Pages or later
+  function ensureBaseTag() {
+    if (typeof document === 'undefined' || !document.head) return;
+    let base = document.querySelector('base');
+    if (!base) {
+      base = document.createElement('base');
+      document.head.prepend(base);
+    }
+    // make sure it ends with a slash
+    base.setAttribute('href', prosjektRot + '/');
+  }
+  ensureBaseTag();
+
   // make project root available globally for other scripts
   window.PROSJEKT_ROT = prosjektRot;
 
@@ -128,6 +142,10 @@
       }
     });
   }
+
+  // expose helpers for other scripts/tests
+  window.fixRootLinks = fixRootLinks;
+  window.medProsjektRot = medProsjektRot;
 
   // Køyre
   ryddGamalIncludeCache();
