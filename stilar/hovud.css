@@ -55,17 +55,12 @@ html{
 }
 
 body{
-  height: 100%;
   width: 100%;
-  max-width: 100vw;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   margin: 0;
   line-height: 1.45;
   background: var(--farge-bakgrunn);
   color: var(--farge-tekst);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
   overflow-x: hidden;
 }
 
@@ -74,7 +69,6 @@ body{
   max-width: var(--maksbreidd);
   margin: 0 auto;
   padding: 16px;
-  flex: 1;
   min-width: 0; /* flex-item kan krympa, så tabellen bryt ikkje ut */
   overflow-x: hidden;
 }
@@ -219,6 +213,12 @@ header{
   min-width: 0;
   max-width: 100%;
 }
+
+/* Skroll-hint: skjult på desktop, vises berre i mobil-media */
+.skroll-hint{
+  display: none;
+}
+.skroll-hint.skjult{ display: none !important; }
 
 .pille{
   border: 1px solid var(--farge-border);
@@ -542,18 +542,18 @@ table.dataTable th:nth-child(9){
    Kolofon
    ========================== */
 .kolofon{
-  background: #341212;
+  background: #3f2727;
   border-top: 1px solid #2a0e0e;
-  margin-top: 3rem;
-  padding: 1.75rem 0;
-  font-size: 14px;
+  margin-top: 1.8rem;
+  padding: 1.2rem 0;
+  font-size: 13px;
   color: #F3E6E3;
 }
 
 .kolofon strong{
   font-family: "Fraunces", serif;
   font-weight: 650;
-  font-size: 16px;
+  font-size: 15px;
   letter-spacing: .3px;
   white-space: nowrap;
   color: #F6D6C9;
@@ -605,6 +605,25 @@ table.dataTable th:nth-child(9){
     padding-right: 2px;
   }
   .faneknapp{ flex-shrink: 0; white-space: nowrap; }
+
+  /* Hint om vassrett scroll – berre på mobil, tonar ut etter nokre sekund */
+  .skroll-hint:not(.skjult){
+    display: block;
+    margin: 0 0 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: var(--farge-mjuk-tekst);
+    background: var(--farge-plate);
+    border: 1px solid var(--farge-border);
+    border-radius: var(--radius-md);
+    animation: skrollHintFade 8s ease-in 1 forwards;
+  }
+  .skroll-hint.skjult{ display: none; }
+}
+
+@keyframes skrollHintFade{
+  0%, 50%{ opacity: 1; }
+  100%{ opacity: 0; pointer-events: none; }
 }
 
 /* ==========================

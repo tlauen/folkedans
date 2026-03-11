@@ -551,6 +551,14 @@
   window.addEventListener("scroll", () => { if (bobleEl) lukkBoble(); }, { passive: true });
   window.addEventListener("resize", () => { if (bobleEl) lukkBoble(); });
 
+  // Skjul «skroll til høgre»-hint når brukar skroller meny eller tabell
+  const skrollHint = document.getElementById("skrollHint");
+  if (skrollHint) {
+    const skjulHint = () => skrollHint.classList.add("skjult");
+    el.faner?.addEventListener("scroll", skjulHint, { passive: true });
+    document.querySelector(".tabellwrap")?.addEventListener("scroll", skjulHint, { passive: true });
+  }
+
   // ----------------------------------------
   // Start
   // ----------------------------------------
