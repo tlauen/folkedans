@@ -64,6 +64,7 @@ body{
   margin: 0 auto;
   padding: 16px;
   flex: 1;
+  overflow-x: hidden; /* unngår at brei tabell bryt ut av ramma på mobil */
 }
 
 /* Typografi */
@@ -226,7 +227,7 @@ header{
    DataTables / tabell
    ========================== */
 
-/* Plate rundt tabellen + tynn aksentlinje */
+/* Plate rundt tabellen + tynn aksentlinje. Vassrett scroll på mobil. */
 .tabellwrap,
 .tabellramme{
   position: relative;
@@ -235,7 +236,10 @@ header{
   border-radius: var(--radius-lg);
   padding: 10px 10px 12px;
   margin-top: 10px;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* jamn scroll på iOS */
 }
 
 /* Aksentlinje */
