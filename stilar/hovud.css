@@ -4,6 +4,11 @@
    Songspesifikt ligg i song.css
    ========================== */
 
+/* Padding skal ikkje gjere at innhald bryt ut av skjerma */
+*, *::before, *::after{
+  box-sizing: border-box;
+}
+
 /* ---- Designkontrakt: radiusar ----
    Bruk berre desse nivåa:
    - 3px  : små/tekniske element (input, filter)
@@ -44,11 +49,15 @@
 }
 
 /* ---- Grunn ---- */
-html, body{
+html{
   height: 100%;
+  overflow-x: hidden; /* heile sida skal ikkje scrolla vassrett */
 }
 
 body{
+  height: 100%;
+  width: 100%;
+  max-width: 100vw;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   margin: 0;
   line-height: 1.45;
@@ -57,14 +66,17 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .omslag{
+  width: 100%;
   max-width: var(--maksbreidd);
   margin: 0 auto;
   padding: 16px;
   flex: 1;
-  overflow-x: hidden; /* unngår at brei tabell bryt ut av ramma på mobil */
+  min-width: 0; /* flex-item kan krympa, så tabellen bryt ikkje ut */
+  overflow-x: hidden;
 }
 
 /* Typografi */
@@ -114,6 +126,8 @@ header{
   background: var(--farge-topp);
   border-bottom: 1px solid var(--farge-border);
   padding: 14px 0;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 .topp-linje{
@@ -167,6 +181,8 @@ header{
   flex-wrap: wrap;
   gap: 8px;
   margin: 16px 0 10px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .faneknapp{
@@ -200,6 +216,8 @@ header{
   align-items: center;
   flex-wrap: wrap;
   margin: 8px 0 14px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .pille{
@@ -238,8 +256,14 @@ header{
   margin-top: 10px;
   width: 100%;
   max-width: 100%;
+  min-width: 0; /* kan krympa innanfor flex/omslag */
   overflow-x: auto;
   -webkit-overflow-scrolling: touch; /* jamn scroll på iOS */
+}
+
+/* DataTables sin wrapper skal ikkje tvinge breidde – scroll skjer i .tabellwrap */
+.tabellwrap .dataTables_wrapper{
+  min-width: 0;
 }
 
 /* Aksentlinje */
@@ -569,6 +593,18 @@ table.dataTable th:nth-child(9){
   /* Litt tettare på mobil */
   .liste-rad{ padding: 9px 0; }
   .dataTables_filter input{ padding: 6px 9px; }
+
+  /* Faner (dansetype-meny): vassrett scroll viss dei ikkje får plass, så alt er nåbart */
+  .faner{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    margin-left: -2px;
+    margin-right: -2px;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .faneknapp{ flex-shrink: 0; white-space: nowrap; }
 }
 
 /* ==========================
