@@ -2,6 +2,13 @@
 // Brukt for bobla når ein trykkjer på kjelde-forkortinga.
 
 window.KJELDE_ORDLISTE = {
+  "ANTUN": {
+    tittel: "Vestlandsspringdans",
+    tekst: "Antun, Markvard (1967)",
+    url: "https://www.nb.no/items/ef698f1e3ce61df3c37e2955cf76bbe7",
+    nb: "https://www.nb.no/items/ef698f1e3ce61df3c37e2955cf76bbe7",
+    start: ""
+  },
   "BARK": {
     tittel: "Balladearkivet",
     tekst: "Universitetet i Oslo, Institutt for kulturstudier",
