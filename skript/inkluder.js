@@ -108,6 +108,59 @@
     }
   }
 
+  // Når vi lastar inn HTML med innerHTML blir ofte <script src="..."> ikkje
+  // eksekvert på same måte som ved "vanleg" parsing. Re-eksekver eksterne
+  // script slik at analytics (Umami) faktisk lastar.
+  function kjørEksterneScripts(container) {
+    if (!container) return;
+    const externalScripts = Array.from(container.querySelectorAll("script[src]"));
+    if (!externalScripts.length) return;
+
+    // Hindrar dobbel-innlasting dersom include blir kalla fleire gongar.
+    window.__INCLUDE_EXTERNAL_SCRIPTS_LOADED =
+      window.__INCLUDE_EXTERNAL_SCRIPTS_LOADED || new Set();
+
+    externalScripts.forEach(old => {
+      const src = old.getAttribute("src");
+      if (!src) return;
+
+      const websiteId = old.getAttribute("data-website-id") || "";
+      const key = `${src}|${websiteId}`;
+      if (window.__INCLUDE_EXTERNAL_SCRIPTS_LOADED.has(key)) {
+        old.remove();
+        return;
+      }
+      window.__INCLUDE_EXTERNAL_SCRIPTS_LOADED.add(key);
+
+      const neo = document.createElement("script");
+      neo.src = old.src;
+      neo.async = false;
+
+      // Kopier attributt, men dropp "defer/async" (dei er ikkje pålitelege for
+      // scripts som blir lagt til etter at sida er parsa).
+      for (const attr of old.attributes) {
+        if (!attr || !attr.name) continue;
+        if (attr.name === "src" || attr.name === "defer" || attr.name === "async") continue;
+        neo.setAttribute(attr.name, attr.value);
+      }
+
+      // Umami: dersom sidevisning blir trigga ved "load", kan den gå glipp når
+      // scriptet blir injisert seinare. Kall eksplisitt trackPageview når umami
+      // er lasta.
+      if (src.includes("cloud.umami.is/script.js")) {
+        neo.addEventListener("load", () => {
+          try {
+            if (window.umami && typeof window.umami.trackPageview === "function") {
+              window.umami.trackPageview();
+            }
+          } catch (e) {}
+        });
+      }
+
+      old.parentNode && old.parentNode.replaceChild(neo, old);
+    });
+  }
+
   async function lastInn(selector, fil, etterpå) {
     const mål = document.querySelector(selector);
     if (!mål) return;
@@ -115,6 +168,7 @@
     try {
       const html = await hentTekst(fil);
       mål.innerHTML = html;
+      kjørEksterneScripts(mål);
       if (etterpå) etterpå(mål);
     } catch (e) {
       console.error(e);
