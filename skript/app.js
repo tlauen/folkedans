@@ -153,8 +153,83 @@
       .join("");
   }
 
+  function parseFørsteHeltal(verdi) {
+    const m = (verdi ?? "").toString().match(/-?\d+/);
+    if (!m) return null;
+    const n = Number(m[0]);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function tilOddTal(n) {
+    if (!Number.isFinite(n)) return null;
+    const x = Math.trunc(n);
+    return x % 2 === 0 ? x + 1 : x;
+  }
+
+  function finnRettleiingNbMeta(verdi) {
+    const s = (verdi ?? "").toString().trim();
+    if (!s) return null;
+
+    // Vanleg tilfelle: CSV inneheld forkorting (t.d. "NF:S")
+    const direkte = ORDLISTE[s];
+    if (direkte?.nb) return direkte;
+
+    // Alternativ: CSV inneheld nb.no-URL (evt utan/med page=...)
+    if (!s.includes("nb.no/items/")) return null;
+    const urn = s.match(/URN:[^\/?#]+/i)?.[0];
+    if (!urn) return null;
+
+    for (const v of Object.values(ORDLISTE)) {
+      if (v?.nb && v.nb.includes(urn)) return v;
+    }
+    return null;
+  }
+
+  function lagNbUrlMedPage(nbBaseUrl, pageParam) {
+    if (!nbBaseUrl || !Number.isFinite(pageParam)) return null;
+
+    // Prøv robust v1: URL() med searchParams (støttar berre absolute URL).
+    try {
+      const u = new URL(nbBaseUrl);
+      u.searchParams.set("page", String(pageParam));
+      return u.toString();
+    } catch {
+      // Fallback: streng-basert
+      const utanPage = nbBaseUrl.replace(/([?&])page=\-?\d+/i, "$1").replace(/[?&]$/, "");
+      const sep = nbBaseUrl.includes("?") ? "&" : "?";
+      return `${utanPage}${sep}page=${pageParam}`;
+    }
+  }
+
+  function lagRettleiingKnapp(verdi, sidetal) {
+    if (!verdi) return "";
+    const raw = verdi.toString();
+    if (!raw.trim()) return "";
+
+    const sidetalNum = parseFørsteHeltal(sidetal);
+    const delar = raw
+      .split(/\r?\n|,\s*(?=https?:\/\/)/)
+      .map(v => v.trim())
+      .filter(Boolean);
+
+    const lenkjer = delar.map(seg => {
+      const meta = finnRettleiingNbMeta(seg);
+      if (meta?.nb && Number.isFinite(sidetalNum)) {
+        const start = Number(meta.start ?? 0);
+        const pageParam = tilOddTal(sidetalNum + start);
+        const nbUrl = lagNbUrlMedPage(meta.nb, pageParam);
+        if (nbUrl) {
+          return `<a class="linkknapp" href="${escAttr(nbUrl)}" target="_blank" rel="noopener noreferrer">Rettleiing</a>`;
+        }
+      }
+      return `<a class="linkknapp" href="${escAttr(seg)}" target="_blank" rel="noopener noreferrer">Rettleiing</a>`;
+    });
+
+    return lenkjer.join("") || `<span class="muted">–</span>`;
+  }
+
   function renderLenkjer(rad) {
-    const rettleiing = lagLinkknappar(rad[KOLONNE.rettleiing], "Rettleiing");
+    const rettleiing = lagRettleiingKnapp(rad[KOLONNE.rettleiing], rad[KOLONNE.sidetal]);
     const lyd = lagLinkknappar(rad[KOLONNE.lyd], "Lyd");
     const film = lagLinkknappar(rad[KOLONNE.film], "Film");
     const alle = [rettleiing, lyd, film].filter(Boolean).join("");
