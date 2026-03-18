@@ -231,6 +231,17 @@
         if (nbUrl) return nbUrl;
       }
 
+      // Dersom CSV brukar ein kjelde-/forkortingskode (t.d. "DT:F") i Rettleiing,
+      // så kan vi framleis lage page-param basert på ORDLISTE[seg].url (dersom den
+      // peikar til nb.no-items).
+      const direkte = ORDLISTE[seg];
+      if (direkte?.url && direkte.url.includes("nb.no") && (direkte.url.includes("/items/") || direkte.url.includes("/maken/item/"))) {
+        const start = Number(direkte.start ?? 0);
+        const pageParam = tilOddTal(sidetalNum + start);
+        const nbUrl = lagNbUrlMedPage(direkte.url, pageParam);
+        if (nbUrl) return nbUrl;
+      }
+
       // Fallback: dersom CSV inneheld ei nb.no-URL som har URN,
       // rekne ut page= (start=0) sjølv om vi manglar mapping.
       if (seg.includes("nb.no") && finnUrn(seg)) {
@@ -238,8 +249,34 @@
         const nbUrl = lagNbUrlMedPage(seg, pageParam);
         if (nbUrl) return nbUrl;
       }
+
+      // Fallback v2: nb.no-URL utan URN (t.d. /items/<id>) — legg på page basert på sidetal.
+      if (seg.includes("nb.no") && (seg.includes("/items/") || seg.includes("/maken/item/"))) {
+        const pageParam = tilOddTal(sidetalNum);
+        const nbUrl = lagNbUrlMedPage(seg, pageParam);
+        if (nbUrl) return nbUrl;
+      }
     }
     return null;
+  }
+
+  function finnNbUrlForKjelde(kjeldeVerdi, sidetal) {
+    const code = (kjeldeVerdi ?? "").toString().trim();
+    if (!code) return null;
+
+    const meta = ORDLISTE[code];
+    if (!meta) return null;
+
+    const sidetalNum = parseFørsteHeltal(sidetal);
+    if (!Number.isFinite(sidetalNum)) return null;
+
+    // Regelen din: vi brukar berre nb-feltet i ordlista.
+    const nbBaseUrl = (meta.nb ?? "").toString().trim();
+    if (!nbBaseUrl) return null;
+
+    const start = Number(meta.start ?? 0);
+    const pageParam = tilOddTal(sidetalNum + start);
+    return lagNbUrlMedPage(nbBaseUrl, pageParam);
   }
 
   function lagRettleiingAndreLenker(verdi) {
@@ -255,8 +292,9 @@
 
     for (const seg of delar) {
       // Hopp over nb.no-lenker; desse blir flytta til Sidetal-lenka.
-      const meta = finnRettleiingNbMeta(seg);
-      if (meta?.nb) continue;
+      if (seg.includes("nb.no")) continue;
+      const direkte = ORDLISTE[seg];
+      if (direkte?.url?.includes("nb.no")) continue;
 
       const oppslag = ORDLISTE[seg];
       if (oppslag?.url) {
@@ -277,8 +315,8 @@
     return lenkjer.join("");
   }
 
-  function renderLenkjer(rad) {
-    const rettleiingAndre = lagRettleiingAndreLenker(rad[KOLONNE.rettleiing]);
+  function renderLenkjer(rad, kjeldeHarNb) {
+    const rettleiingAndre = kjeldeHarNb ? "" : lagRettleiingAndreLenker(rad[KOLONNE.rettleiing]);
     const lyd = lagLinkknappar(rad[KOLONNE.lyd], "Lyd");
     const film = lagLinkknappar(rad[KOLONNE.film], "Film");
     const alle = [rettleiingAndre, lyd, film].filter(Boolean).join("");
@@ -488,13 +526,14 @@
       underkategori: r.underkategori || "",
       tradisjon: r.tradisjon || "",
       kjelde_html: renderKjeldeCelle(r.kjelde),
+      _kjeldeHarNb: Boolean((ORDLISTE[r.kjelde]?.nb ?? "").toString().trim()),
       sidetal_vis: (() => {
-        const nbUrl = finnNbUrlForRettleiing(r._rå[KOLONNE.rettleiing], r.sidetal);
+        const nbUrl = r._rå && r._rå[KOLONNE.kjelde] ? finnNbUrlForKjelde(r.kjelde, r.sidetal) : finnNbUrlForKjelde(r.kjelde, r.sidetal);
         if (!nbUrl) return r.sidetal || "";
         const sid = escHtml(r.sidetal || "");
         return `<a href="${escAttr(nbUrl)}" target="_blank" rel="noopener noreferrer">${sid}</a>`;
       })(),
-      lenkjer_html: renderLenkjer(r._rå),
+      lenkjer_html: renderLenkjer(r._rå, Boolean((ORDLISTE[r.kjelde]?.nb ?? "").toString().trim())),
       vers_vis: r.vers || "",
       brigde: renderBrigde(r.brigde)
     }));
