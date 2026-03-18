@@ -531,7 +531,14 @@
         const nbUrl = r._rå && r._rå[KOLONNE.kjelde] ? finnNbUrlForKjelde(r.kjelde, r.sidetal) : finnNbUrlForKjelde(r.kjelde, r.sidetal);
         if (!nbUrl) return r.sidetal || "";
         const sid = escHtml(r.sidetal || "");
-        return `<a href="${escAttr(nbUrl)}" target="_blank" rel="noopener noreferrer">${sid}</a>`;
+        return `<a
+          class="linkknapp sidetal-link"
+          href="${escAttr(nbUrl)}"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Opne rettleiing på nb.no"
+          aria-label="Opne rettleiing på nb.no for sidetal ${sid}"
+        >${sid}</a>`;
       })(),
       lenkjer_html: renderLenkjer(r._rå, Boolean((ORDLISTE[r.kjelde]?.nb ?? "").toString().trim())),
       vers_vis: r.vers || "",
