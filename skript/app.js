@@ -170,13 +170,18 @@
     const s = (verdi ?? "").toString().trim();
     if (!s) return null;
 
+    function finnUrn(str) {
+      return str.match(/URN:[^\/?#]+/i)?.[0] || null;
+    }
+
     // Vanleg tilfelle: CSV inneheld forkorting (t.d. "NF:S")
     const direkte = ORDLISTE[s];
     if (direkte?.nb) return direkte;
 
     // Alternativ: CSV inneheld nb.no-URL (evt utan/med page=...)
-    if (!s.includes("nb.no/items/")) return null;
-    const urn = s.match(/URN:[^\/?#]+/i)?.[0];
+    // Støttar både /items/... og /maken/item/... (og evt andre nb.no-mønster)
+    if (!s.includes("nb.no")) return null;
+    const urn = finnUrn(s);
     if (!urn) return null;
 
     for (const v of Object.values(ORDLISTE)) {
@@ -201,38 +206,82 @@
     }
   }
 
-  function lagRettleiingKnapp(verdi, sidetal) {
-    if (!verdi) return "";
-    const raw = verdi.toString();
-    if (!raw.trim()) return "";
+  function finnNbUrlForRettleiing(rwRettleiingVerdi, sidetal) {
+    const raw = (rwRettleiingVerdi ?? "").toString();
+    if (!raw.trim()) return null;
 
     const sidetalNum = parseFørsteHeltal(sidetal);
+    if (!Number.isFinite(sidetalNum)) return null;
+
     const delar = raw
       .split(/\r?\n|,\s*(?=https?:\/\/)/)
       .map(v => v.trim())
       .filter(Boolean);
 
-    const lenkjer = delar.map(seg => {
+    function finnUrn(str) {
+      return (str ?? "").toString().match(/URN:[^\/?#]+/i)?.[0] || null;
+    }
+
+    for (const seg of delar) {
       const meta = finnRettleiingNbMeta(seg);
-      if (meta?.nb && Number.isFinite(sidetalNum)) {
+      if (meta?.nb) {
         const start = Number(meta.start ?? 0);
         const pageParam = tilOddTal(sidetalNum + start);
         const nbUrl = lagNbUrlMedPage(meta.nb, pageParam);
-        if (nbUrl) {
-          return `<a class="linkknapp" href="${escAttr(nbUrl)}" target="_blank" rel="noopener noreferrer">Rettleiing</a>`;
-        }
+        if (nbUrl) return nbUrl;
       }
-      return `<a class="linkknapp" href="${escAttr(seg)}" target="_blank" rel="noopener noreferrer">Rettleiing</a>`;
-    });
 
-    return lenkjer.join("") || `<span class="muted">–</span>`;
+      // Fallback: dersom CSV inneheld ei nb.no-URL som har URN,
+      // rekne ut page= (start=0) sjølv om vi manglar mapping.
+      if (seg.includes("nb.no") && finnUrn(seg)) {
+        const pageParam = tilOddTal(sidetalNum);
+        const nbUrl = lagNbUrlMedPage(seg, pageParam);
+        if (nbUrl) return nbUrl;
+      }
+    }
+    return null;
+  }
+
+  function lagRettleiingAndreLenker(verdi) {
+    const raw = (verdi ?? "").toString();
+    if (!raw.trim()) return "";
+
+    const delar = raw
+      .split(/\r?\n|,\s*(?=https?:\/\/)/)
+      .map(v => v.trim())
+      .filter(Boolean);
+
+    const lenkjer = [];
+
+    for (const seg of delar) {
+      // Hopp over nb.no-lenker; desse blir flytta til Sidetal-lenka.
+      const meta = finnRettleiingNbMeta(seg);
+      if (meta?.nb) continue;
+
+      const oppslag = ORDLISTE[seg];
+      if (oppslag?.url) {
+        lenkjer.push(
+          `<a class="linkknapp" href="${escAttr(oppslag.url)}" target="_blank" rel="noopener noreferrer">Rettleiing</a>`
+        );
+        continue;
+      }
+
+      // Dersom CSV inneheld URL direkte, bruk den (dersom den ikkje var nb.no).
+      if (/^https?:\/\//i.test(seg)) {
+        lenkjer.push(
+          `<a class="linkknapp" href="${escAttr(seg)}" target="_blank" rel="noopener noreferrer">Rettleiing</a>`
+        );
+      }
+    }
+
+    return lenkjer.join("");
   }
 
   function renderLenkjer(rad) {
-    const rettleiing = lagRettleiingKnapp(rad[KOLONNE.rettleiing], rad[KOLONNE.sidetal]);
+    const rettleiingAndre = lagRettleiingAndreLenker(rad[KOLONNE.rettleiing]);
     const lyd = lagLinkknappar(rad[KOLONNE.lyd], "Lyd");
     const film = lagLinkknappar(rad[KOLONNE.film], "Film");
-    const alle = [rettleiing, lyd, film].filter(Boolean).join("");
+    const alle = [rettleiingAndre, lyd, film].filter(Boolean).join("");
     return alle || `<span class="muted">–</span>`;
   }
 
@@ -439,7 +488,12 @@
       underkategori: r.underkategori || "",
       tradisjon: r.tradisjon || "",
       kjelde_html: renderKjeldeCelle(r.kjelde),
-      sidetal_vis: r.sidetal || "",
+      sidetal_vis: (() => {
+        const nbUrl = finnNbUrlForRettleiing(r._rå[KOLONNE.rettleiing], r.sidetal);
+        if (!nbUrl) return r.sidetal || "";
+        const sid = escHtml(r.sidetal || "");
+        return `<a href="${escAttr(nbUrl)}" target="_blank" rel="noopener noreferrer">${sid}</a>`;
+      })(),
       lenkjer_html: renderLenkjer(r._rå),
       vers_vis: r.vers || "",
       brigde: renderBrigde(r.brigde)
@@ -475,7 +529,7 @@
         { title: "Brigde", data: "brigde" }
       ],
       columnDefs: [
-        { targets: [4, 6], render: (d) => d },        // HTML
+        { targets: [4, 5, 6], render: (d) => d },     // HTML
         { targets: [5, 7], type: "tal-tomt-nedst" }   // numerisk + tomt nederst
       ],
 
