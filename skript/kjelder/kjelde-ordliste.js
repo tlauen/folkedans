@@ -117,10 +117,10 @@ window.KJELDE_ORDLISTE = {
   "NF:S": {
     tittel: "Norske folkedansar: Songdansar",
     tekst: "Klara Semb (1991)",
-    url: "https://www.nb.no/items/URN:NBN:no-nb_digibok_2007080604038",
+    url: "https://www.nb.no/items/e9e39468a63b5e2ab61f1590c22353aa",
     // Nb.no-lenke til boka. Brukast av lenker i tabellen "Rettleiing"
     // (page= blir rekna ut frå sidetal + start).
-    nb: "https://www.nb.no/items/URN:NBN:no-nb_digibok_2007080604038",
+    nb: "https://www.nb.no/items/e9e39468a63b5e2ab61f1590c22353aa",
     // Forskyving i sidetal før ein tek "oddetalsside" (page-param hos nb.no).
     // Form: pageParam = (sidetal + start) gjer om til odde tal.
     start: 0
@@ -128,8 +128,8 @@ window.KJELDE_ORDLISTE = {
   "NF:T": {
     tittel: "Norske folkedansar: Turdansar",
     tekst: "Klara Semb (1985)",
-    url: "https://www.nb.no/items/URN:NBN:no-nb_digibok_2007111904027",
-    nb: "https://www.nb.no/items/URN:NBN:no-nb_digibok_2007111904027",
+    url: "https://www.nb.no/items/116deb337aa5355ce5d1928fe6f0f976",
+    nb: "https://www.nb.no/items/116deb337aa5355ce5d1928fe6f0f976",
     start: 0
   },
   "NORD": {
