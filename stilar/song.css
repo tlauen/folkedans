@@ -36,6 +36,12 @@ article.songtekst p{
   line-height: 1.55;
 }
 
+/* Omkved i alle songar, med eller utan versnummer. */
+.songtekst p.omkved{
+  font-style: italic;
+  opacity: .9;
+}
+
 /* ==========================
    Lenker
    ========================== */
@@ -155,6 +161,11 @@ article.songtekst p{
   counter-reset: vers;
 }
 
+/* Start på vers 1 etter ein mellomtittel. */
+.songtekst.nummer h2{
+  counter-set: vers 0;
+}
+
 /* Viss du deler songen i bolkar, start på nytt i kvar bolk */
 .songtekst.nummer .bolk{
   counter-reset: vers;
@@ -177,11 +188,9 @@ article.songtekst p{
   color: var(--farge-mjuk-tekst);
 }
 
-/* Ompkved skal ikkje teljast, og skal ikkje ha innrykk */
+/* Omkved får same innrykk som versa, men blir ikkje talde. */
 .songtekst.nummer p.omkved{
   padding-left: 2.4rem;      /* same innrykk som vers */
-  font-style: italic;  /* tryggleik om <em> manglar */
-  opacity: .9;
 }
 
 /* Merknader i teksten (ikkje vers) */

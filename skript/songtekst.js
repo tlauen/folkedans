@@ -3,6 +3,7 @@
   //
   // Vers: tom linje mellom versa. Linjeskift inne i verset blir <br>.
   // Omkved: blokk der kvar linje startar med >
+  // Mellomtittel: ## tekst (startar versnummereringa på nytt)
   // Merknad: :::merknad ... :::   eller :::merknad-inline ... :::
   // Kursiv: *tekst*    Lenkje: [tekst](url)
   const VERSJON = "1";
@@ -234,7 +235,10 @@
       while (tekst[i] === "\n") i++;
       if (!blokk) continue;
 
-      if (erSitatBlokk(blokk)) {
+      const mellomtittel = blokk.match(/^##[ \t]+([^\n]+)$/);
+      if (mellomtittel) {
+        bitar.push(`<h2>${inlineMd(mellomtittel[1])}</h2>`);
+      } else if (erSitatBlokk(blokk)) {
         const innhald = blokk.split("\n").map(stripSitat).join("\n").trim();
         bitar.push(`<p class="omkved">${linjerTilHtml(innhald)}</p>`);
       } else {

@@ -53,6 +53,7 @@ Kort sagt:
 4. **Oppdatere individuelle songsider**
    - Alle songane kan redigerast i `song/<slug>/tekst.md`.
    - Vers er skilde med tom linje, omkved med `>`, merknad med `:::merknad`. Sidemal og visning ligg i `index.html` og `skript/songtekst.js`.
+   - Mellomtitlar blir skrivne som `## Tittel`, med tom linje før og etter. Versnummereringa startar på 1 att etter kvar mellomtittel.
 
 ## Lokal utvikling
 

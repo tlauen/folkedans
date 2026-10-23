@@ -1,5 +1,6 @@
 ---
 tittel: "Fanitullen"
+nummer: ja
 breidd: "30rem"
 tekst: "Jørgen Moe"
 kjelde: "Digte – Moe, Jørgen (1856)"
