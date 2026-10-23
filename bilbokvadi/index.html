@@ -29,49 +29,7 @@
     </p>
 
     <section class="kort">
-      <!--<div class="kort-topp">
-        <h2>Kvada</h2>
-      </div>-->
-
-      <ol class="liste">
-        <!-- Byt ut fil/namn etter kvart -->
-        <li class="liste-rad">
-          <a class="liste-lenkje" href="/song/bilbokvad-i">Bilbokvædi I: Ferdamål</a>
-          <div class="liste-meta">Dvergane kved om tapet av ætteberget, draken som øydela heimen, og dei orda som set ferda i gang.</div>
-        </li>
-        <li class="liste-rad">
-          <a class="liste-lenkje" href="/song/bilbokvad-ii">Bilbokvædi II: Dvergevise</a>
-          <div class="liste-meta">I Hobbitun blir Bilbo riven ut av kvardagen då dvergar og Gandalv fyller stova hans med song, mat og eventyr.</div>
-        </li>
-        <li class="liste-rad">
-          <a class="liste-lenkje" href="/song/bilbokvad-iii">Bilbokvædi III: Rimnadalsveg</a>
-          <div class="liste-meta">Om reise frå Hobbitun til Rimnadal, og vidare til Skoddefjella.</div>
-        </li>
-        <li class="liste-rad">
-          <a class="liste-lenkje" href="/song/bilbokvad-iv">Bilbokvædi IV: Ringmål</a>
-          <div class="liste-meta">Bilbo møter Gollum i djupna under Skoddefjella til ordkamp og gåter, og finn ringen som skal følgje han vidare.</div>
-        </li>
-        <li class="liste-rad ikkje-ferdig">
-          <a class="liste-lenkje" href="#">Bilbokvædi V: Myrkskogvise</a>
-          <div class="liste-meta">I Myrkskogen, der kongroar vaktar og stiane villar, veks Bilbo til i gjerning når dvergane fell i fangenskap.</div>
-        </li>
-        <li class="liste-rad ikkje-ferdig">
-          <a class="liste-lenkje" href="#">Bilbokvædi VI: Drakemål</a>
-          <div class="liste-meta">Følgjet kjem fram til berget, og Bilbo lurar seg inn og slår av ein prat med Smaug.</div>
-        </li>
-        <li class="liste-rad">
-          <a class="liste-lenkje" href="/song/bilbokvad-vii">Bilbokvædi VII: Smaugskvadet</a>
-          <div class="liste-meta">Smaug dreg til Langvassby for å brenne ho ned. Der møter han uventa motstand og blir drept av Boge-Bard.</div>
-        </li>
-        <li class="liste-rad ikkje-ferdig">
-          <a class="liste-lenkje" href="#">Bilbokvædi VIII: Ferdaminne</a>
-          <div class="liste-meta">Heime att minnest Bilbo ferda, slaget og tapet, og let orda bli det som står att når livet stilnar i ro.</div>
-        </li>
-        <li class="liste-rad">
-          <a class="liste-lenkje" href="/song/ereborkvadet">Tillegg I: Ereborkvadet</a>
-          <div class="liste-meta">Songen dvergane sjølv syng om Erebor. Henta direkte frå boka.</div>
-        </li>
-      </ol>
+      <ol id="bilbokvadi-liste" class="liste"></ol>
     </section>
 
     <p class="muted" style="margin-top: 14px;">
@@ -80,6 +38,78 @@
   </main>
 
   <div id="kolofon-include"></div>
+  <script>
+    (() => {
+      const SONGAR = [
+        { slug: "bilbokvad-i", href: "/song/bilbokvad-i", title: "Bilbokvædi I: Ferdamål", ferdig: true, description: "Dvergane kved om tapet av ætteberget, draken som øydela heimen, og dei orda som set ferda i gang." },
+        { slug: "bilbokvad-ii", href: "/song/bilbokvad-ii", title: "Bilbokvædi II: Dvergevise", ferdig: true, description: "I Hobbitun blir Bilbo riven ut av kvardagen då dvergar og Gandalv fyller stova hans med song, mat og eventyr." },
+        { slug: "bilbokvad-iii", href: "/song/bilbokvad-iii", title: "Bilbokvædi III: Rimnadalsveg", ferdig: true, description: "Om reise frå Hobbitun til Rimnadal, og vidare til Skoddefjella." },
+        { slug: "bilbokvad-iv", href: "/song/bilbokvad-iv", title: "Bilbokvædi IV: Ringmål", ferdig: true, description: "Bilbo møter Gollum i djupna under Skoddefjella til ordkamp og gåter, og finn ringen som skal følgje han vidare." },
+        { slug: "bilbokvad-v", href: "#", title: "Bilbokvædi V: Myrkskogvise", ferdig: false, description: "I Myrkskogen, der kongroar vaktar og stiane villar, veks Bilbo til i gjerning når dvergane fell i fangenskap." },
+        { slug: "bilbokvad-vi", href: "#", title: "Bilbokvædi VI: Drakemål", ferdig: false, description: "Følgjet kjem fram til berget, og Bilbo lurar seg inn og slår av ein prat med Smaug." },
+        { slug: "bilbokvad-vii", href: "/song/bilbokvad-vii", title: "Bilbokvædi VII: Smaugskvadet", ferdig: true, description: "Smaug dreg til Langvassby for å brenne ho ned. Der møter han uventa motstand og blir drept av Boge-Bard." },
+        { slug: "bilbokvad-viii", href: "#", title: "Bilbokvædi VIII: Ferdaminne", ferdig: false, description: "Heime att minnest Bilbo ferda, slaget og tapet, og let orda bli det som står att når livet stilnar i ro." },
+      ];
+
+      const TILLEGG = [
+        { slug: "ereborkvadet", href: "/song/ereborkvadet", title: "Tillegg I: Ereborkvadet", ferdig: true, description: "Songen dvergane sjølv syng om Erebor. Henta direkte frå boka." }
+      ];
+
+      const listEl = document.getElementById("bilbokvadi-liste");
+      if (!listEl) return;
+
+      function stripQuotes(str) {
+        const s = String(str ?? "").trim();
+        if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+          return s.slice(1, -1);
+        }
+        return s;
+      }
+
+      function parseFrontMatterTitle(mdText) {
+        const match = String(mdText ?? "").match(/^---\s*\n([\s\S]*?)\n---\s*\n?/);
+        if (!match) return null;
+        const lines = match[1].split(/\r?\n/);
+        for (const line of lines) {
+          const m = line.match(/^tittel:\s*(.*)$/);
+          if (!m) continue;
+          return stripQuotes(m[1].trim());
+        }
+        return null;
+      }
+
+      function itemHtml(song) {
+        const href = song.ferdig ? song.href : "#";
+        const isDisabled = song.ferdig ? "" : " ikkje-ferdig";
+        return `
+          <li class="liste-rad${isDisabled}">
+            <a class="liste-lenkje" href="${href}">${song.title}</a>
+            <div class="liste-meta">${song.description}</div>
+          </li>
+        `;
+      }
+
+      async function oppdaterSongar() {
+        const alle = [...SONGAR, ...TILLEGG];
+        const oppdatert = await Promise.all(alle.map(async (song) => {
+          if (!song.ferdig) return song;
+          try {
+            const res = await fetch(`/song/${song.slug}/tekst.md`, { cache: "no-cache" });
+            if (!res.ok) return song;
+            const text = await res.text();
+            const title = parseFrontMatterTitle(text);
+            return title ? { ...song, title } : song;
+          } catch {
+            return song;
+          }
+        }));
+
+        listEl.innerHTML = oppdatert.map(itemHtml).join("");
+      }
+
+      oppdaterSongar();
+    })();
+  </script>
   <script src="../skript/inkluder.js"></script>
 </body>
 </html>
