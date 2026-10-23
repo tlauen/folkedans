@@ -1,5 +1,6 @@
 ---
 tittel: "Tillegg I: Ereborkvadet"
+nummer: ja
 breidd: "30rem"
 tekst: "J. R. R. Tolkien, omsett til norsk av Eiliv Groven Myhren"
 melodi: "Plan 9 (David Donaldson, David Long, Steve Roche, and Janet Roddick)"

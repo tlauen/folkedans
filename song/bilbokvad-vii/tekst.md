@@ -11,16 +11,16 @@ om_visa: |
   Melodien er henta frå Dvergemøy (jf. Blåboka), og teksten er inspirert av J. R. R. Tolkiens «Hobbiten», omsett til nynorsk av Eilev Groven Myhren.
 ---
 
+Høyrt hev eg frå gamal tid,
+drakar flyg om verd.
+No vil eg kveda om draken Smaug,
+og om hans siste ferd.
+
 > Grane bar gullet av heie
 > Grane bar gull av heie
 > Bard han spende bogen i vreide
 > siger han på ormen vann
 > Grane bar gullet av heie
-
-Høyrt hev eg frå gamal tid,
-drakar flyg om verd.
-No vil eg kveda om draken Smaug,
-og om hans siste ferd.
 
 Hausten gyllna Langvassby,
 og soli renn i li.
