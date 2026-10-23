@@ -1,5 +1,6 @@
 ---
 tittel: "Soga om Kark"
+nummer: ja
 breidd: "25rem"
 tekst: "Sæmund Fiskvik"
 melodi: "Isenkram"

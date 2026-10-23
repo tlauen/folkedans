@@ -1,5 +1,6 @@
 ---
 tittel: "Møllarvisa"
+nummer: ja
 breidd: "30rem"
 kjelde: "Trad."
 lenkjer:

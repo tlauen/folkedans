@@ -1,5 +1,6 @@
 ---
 tittel: "Harald Jakupsson og Valdemarsormen"
+nummer: ja
 breidd: "30rem"
 tekst: "Torbjørn Bergwitz Lauen"
 melodi: "Gard Nergaard"

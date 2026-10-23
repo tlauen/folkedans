@@ -1,5 +1,6 @@
 ---
 tittel: "Tale ved Kleng Spelemanns grav"
+nummer: ja
 breidd: "30rem"
 tekst: "Jakob Sande"
 melodi: "Edvin Helgheim"
