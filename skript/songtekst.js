@@ -73,12 +73,12 @@
   }
 
   function stripSitat(linje){
-    return linje.replace(/^>\s?/, "");
+    return linje.replace(/^[ \t]*>[ \t]?/, "");
   }
 
   function erSitatBlokk(tekst){
     const linjer = tekst.split("\n").filter((l) => l.trim() !== "");
-    return linjer.length > 0 && linjer.every((l) => l.startsWith(">"));
+    return linjer.length > 0 && linjer.every((l) => /^[ \t]*>/.test(l));
   }
 
   function lesYamlLite(yaml){
@@ -242,7 +242,13 @@
         const innhald = blokk.split("\n").map(stripSitat).join("\n").trim();
         bitar.push(`<p class="omkved">${linjerTilHtml(innhald)}</p>`);
       } else {
-        bitar.push(`<p>${linjerTilHtml(blokk)}</p>`);
+        const linjer = blokk.split("\n").map((linje) => {
+          if (/^[ \t]*>/.test(linje)) {
+            return `<span class="omkved">${inlineMd(stripSitat(linje).trimEnd())}</span>`;
+          }
+          return inlineMd(linje.trimEnd());
+        });
+        bitar.push(`<p>${linjer.join("<br>\n")}</p>`);
       }
     }
 

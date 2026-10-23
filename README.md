@@ -54,6 +54,7 @@ Kort sagt:
    - Alle songane kan redigerast i `song/<slug>/tekst.md`.
    - Vers er skilde med tom linje, omkved med `>`, merknad med `:::merknad`. Sidemal og visning ligg i `index.html` og `skript/songtekst.js`.
    - Mellomtitlar blir skrivne som `## Tittel`, med tom linje før og etter. Versnummereringa startar på 1 att etter kvar mellomtittel.
+   - Omkvedlinjer med `>` kan òg stå inni eit vers utan tomme linjer rundt. Dei blir viste i kursiv, og verset får framleis berre eitt versnummer.
 
 ## Lokal utvikling
 

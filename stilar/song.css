@@ -37,7 +37,7 @@ article.songtekst p{
 }
 
 /* Omkved i alle songar, med eller utan versnummer. */
-.songtekst p.omkved{
+.songtekst .omkved{
   font-style: italic;
   opacity: .9;
 }
