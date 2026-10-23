@@ -29,15 +29,17 @@
   function inlineMd(rå){
     const bits = [];
     const s = String(rå ?? "");
-    const re = /\[([^\]]+)\]\(([^)]+)\)|\*([^*]+)\*/g;
+    const re = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
     let i = 0;
     let m;
     while ((m = re.exec(s))) {
       if (m.index > i) bits.push(esc(s.slice(i, m.index)));
       if (m[1] != null) {
         bits.push(`<a href="${esc(m[2])}">${inlineMd(m[1])}</a>`);
+      } else if (m[3] != null) {
+        bits.push(`<strong>${inlineMd(m[3])}</strong>`);
       } else {
-        bits.push(`<em>${esc(m[3])}</em>`);
+        bits.push(`<em>${inlineMd(m[4])}</em>`);
       }
       i = m.index + m[0].length;
     }

@@ -51,8 +51,8 @@ Kort sagt:
    - Set `key` (som styrer URL-hash), `namn` (visningsnamn) og `csv` (Google Sheets CSV-lenke)
 
 4. **Oppdatere individuelle songsider**
-   - Dei fleste songane: endre `song/<slug>/index.html` (statisk HTML)
-   - **Bilbokvædi:** endre `song/bilbokvad-*/tekst.md`. Vers er skilde med tom linje, omkved med `>`, merknad med `:::merknad`. Sidemal og visning ligg i `index.html` og `skript/songtekst.js`.
+   - Alle songane kan redigerast i `song/<slug>/tekst.md`.
+   - Vers er skilde med tom linje, omkved med `>`, merknad med `:::merknad`. Sidemal og visning ligg i `index.html` og `skript/songtekst.js`.
 
 ## Lokal utvikling
 
