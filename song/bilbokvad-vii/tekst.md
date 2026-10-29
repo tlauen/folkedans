@@ -110,12 +110,12 @@ Du flyg di siste ferd!»
 Svartepili bringa trefte
 nett som trosten sagde.
 Draken fall mot jordi,
-så eld og larmen tagde.
+all eld og larm det tagde.
 
 Svarte-pili bringa trefte,
 så ormen fall mot jord.
 Det skotet minnest mannen,
-det gjeng så vide ord.
+det gjekk så vide ord.
 
 Bard steig ned frå høge tårn,
 såg alt som øyda var.
